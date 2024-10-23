@@ -1,21 +1,20 @@
-# Utiliser une image de base officielle Node.js
-FROM node:latest
+# Utilise une image Node.js officielle comme image de base
+FROM node:14
+
+# Installe git
+RUN apt-get update && apt-get install -y git
+
+# Clone le dépôt GitHub
+RUN git clone https://github.com/otniel-tamini/my-node.js-app-for-test.git /app
 
 # Définir le répertoire de travail
-WORKDIR /usr/src/app
+WORKDIR /app
 
-# Copier les fichiers package.json et package-lock.json
-COPY package*.json ./
-
-# Installer les dépendances
+# Installe les dépendances
 RUN npm install
 
-# Copier le reste des fichiers de l'application
-COPY . .
+# Expose le port que l'application va utiliser
+EXPOSE 8000
 
-# Exposer le port sur lequel l'application s'exécute
-EXPOSE 3000
-
-# Commande pour démarrer l'application
-CMD ["node", "index.js"]
-
+# Commande pour lancer l'application
+CMD ["npm", "start"]
